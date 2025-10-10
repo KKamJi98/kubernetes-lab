@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: basic-auth
+  name: grafana-auth
   namespace: monitoring
 spec:
   refreshInterval: 1h
@@ -9,11 +9,11 @@ spec:
     name: parameter-store
     kind: ClusterSecretStore 
   target:
-    name: prometheus-basic-auth
+    name: grafana-auth # 생성될 Secret 이름
     creationPolicy: Owner
   data:
   - secretKey: auth # Kubernetes Secrets의 Key
     remoteRef:
-      key: basic-auth # AWS Secrets Manager의 Secret Name
+      key: basic-auth # AWS SSM Parameter Store의 Parameter Name
 # JSON 값: 만약 파라미터 값이 JSON 객체라면, property 필드를 사용해 특정 속성만 추출할 수 있음
 # https://external-secrets.io/latest/provider/aws-parameter-store/#json-secret-values
