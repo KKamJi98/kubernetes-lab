@@ -1,15 +1,15 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: grafana-auth
+  name: basic-auth
   namespace: monitoring
 spec:
   refreshInterval: 1h
   secretStoreRef:
     name: parameter-store
-    kind: ClusterSecretStore 
+    kind: ClusterSecretStore
   target:
-    name: grafana-auth # 생성될 Secret 이름
+    name: basic-auth # 생성될 Secret 이름
     creationPolicy: Owner
   data:
   - secretKey: auth # Kubernetes Secrets의 Key

@@ -1,0 +1,30 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterExternalSecret
+metadata:
+  name: grafana-auth-ces
+spec:
+  externalSecretName: grafana-auth-es
+  namespaceSelector:
+    matchExpressions:
+      - key: kubernetes.io/metadata.name
+        operator: In
+        values:
+          - monitoring
+  refreshTime: 1h
+  externalSecretSpec:
+    refreshInterval: 1h
+    secretStoreRef:
+      name: parameter-store
+      kind: ClusterSecretStore
+    target:
+      name: grafana-auth
+      creationPolicy: Owner
+    data:
+      - secretKey: admin-user
+        remoteRef:
+          key: grafana-auth
+          property: admin-user
+      - secretKey: admin-password
+        remoteRef:
+          key: grafana-auth
+          property: admin-password
